@@ -1,25 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
 
-function App() {
+const Comp1 = (props) => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <>
+      <h1>First Name: {props.fname}</h1>
+      <h1>Last Name: {props.lname}</h1>
+      <h1>Age: {props.age}</h1>
+    </>
   );
-}
+};
+
+const App = () => {
+  const name = "Charan";
+  const isName = true;
+  return (
+    <>
+      <div className="App">
+        <h1>Hello {isName ? name : "Someone"}!</h1>
+        {isName ? (
+          <>
+            <h1>Correct st1</h1>
+            <h1>Correct st2</h1>
+          </>
+        ) : (
+          <>
+            <h1>Wrong st1</h1>
+            <h1>Wrong st1</h1>
+          </>
+        )}
+      </div>
+      <Comp1 fname={"Charan Vignesh"} lname={"N R"} age={20} />
+    </>
+  );
+};
 
 export default App;
