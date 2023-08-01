@@ -1,36 +1,55 @@
+import React, { useState, useEffect } from "react";
+
+import MovieCard from "./MovieCard";
+import SearchIcon from "./search.svg";
 import "./App.css";
 
-const Comp1 = (props) => {
-  return (
-    <>
-      <h1>First Name: {props.fname}</h1>
-      <h1>Last Name: {props.lname}</h1>
-      <h1>Age: {props.age}</h1>
-    </>
-  );
-};
+const API_URL = "http://www.omdbapi.com?apikey=a3279e39";
 
 const App = () => {
-  const name = "Charan";
-  const isName = true;
+  const [searchTerm, setSearchTerm] = useState("");
+  const [movies, setMovies] = useState([]);
+
+  useEffect(() => {
+    searchMovies("Batman");
+  }, []);
+
+  const searchMovies = async (title) => {
+    const response = await fetch(`${API_URL}&s=${title}`);
+    const data = await response.json();
+
+    setMovies(data.Search);
+  };
+
   return (
-    <>
-      <div className="App">
-        <h1>Hello {isName ? name : "Someone"}!</h1>
-        {isName ? (
-          <>
-            <h1>Correct st1</h1>
-            <h1>Correct st2</h1>
-          </>
-        ) : (
-          <>
-            <h1>Wrong st1</h1>
-            <h1>Wrong st1</h1>
-          </>
-        )}
+    <div className="app">
+      <h1>Movie Finder</h1>
+
+      <div className="search">
+        <input
+          value={searchTerm}
+          onChange={(e) => setSearchTerm(e.target.value)}
+          placeholder="Search for movies"
+        />
+        <img
+          src={SearchIcon}
+          alt="search"
+          onClick={() => searchMovies(searchTerm)}
+        />
       </div>
-      <Comp1 fname={"Charan Vignesh"} lname={"N R"} age={20} />
-    </>
+
+      {movies?.length > 0 ? (
+        <div className="container">
+          {movies.map((movie) => (
+            <MovieCard movie={movie} />
+          ))}
+        </div>
+      ) : (
+        <div className="empty">
+          <h2>No movies found</h2>
+        </div>
+      )}
+    </div>
   );
 };
 
